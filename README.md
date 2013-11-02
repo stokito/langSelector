@@ -14,7 +14,7 @@ Add the next tag to your gsp.
 <langs:selector langs="es, en, en_US, pt_BR, pt, pt_pt" default="es" />
 ```
 
-The required attribute "langs" tells the plugin which flags to show, if pay attention the values are the ISO 3166-1 alpha-2 code for languages and a countries, also are the same of the suffixes of "message properties" files.
+The required attribute `langs` tells the plugin which flags to show, if pay attention the values are the ISO 3166-1 alpha-2 code for languages and a countries, also are the same of the suffixes of `messages.properties` files.
 
 Optionally if you want to redirect always to the same url when changing the language (this is helpful to avoid doing a GET with post data) use the url parameter, and this provided url will be used instead of the actual one.
 
@@ -26,7 +26,7 @@ This tag includes the css stylesheet that helps you identify which language is s
 ```
 
 ## Configuration.
-Optionally you can add this property to the Config.groovy to tell the plugin which flag display for the language. By default has the value shown below. Its a map that in the keys are the languages and the values are the countrys.
+Optionally you can add this property to the `Config.groovy` to tell the plugin which flag display for the language. By default has the value shown below. Its a map that in the keys are the languages and the values are the countrys.
 ```groovy
 com.mfelix.grails.plugins.langSelector.lang.flags = [
 	'es': 'es',
