@@ -26,9 +26,9 @@ class LangSelectorTagLib {
         String langs = attrs.langs
         String url = attrs.url
 
-        List<String> values
+        List<String> localeCodesList
         try {
-            values = langs.split(',').toList()
+            localeCodesList = langs.split(',').toList()
         } catch (Exception e) {
             log.error("Error getting value of required attribute 'langs'", e)
             throw new Exception("Error getting value of required attribute 'langs'. Accepted value for example is: es,en_US,en", e)
@@ -54,11 +54,11 @@ class LangSelectorTagLib {
         }
         Map<String, String> supported = StaticConfig.config
         Map flags = [:]
-        values.each {
-            String language = it.contains('_') ? it.substring(0, it.indexOf('_')) : it
-            String country = it.contains('_') ? it.substring(it.indexOf('_') + 1, it.length()) : supported[language.toLowerCase().trim()]
+        localeCodesList.each { String localeCode ->
+            String language = localeCode.contains('_') ? localeCode.substring(0, localeCode.indexOf('_')) : localeCode
+            String country = localeCode.contains('_') ? localeCode.substring(localeCode.indexOf('_') + 1, localeCode.length()) : supported[language.toLowerCase().trim()]
             if (country) {
-                flags[it.trim()] = country.toLowerCase().trim()
+                flags[localeCode.trim()] = country.toLowerCase().trim()
             } else {
                 log.error "No country flag found for: ${language} please check configuration."
             }
