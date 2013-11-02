@@ -14,13 +14,13 @@ Add the next tag to your gsp.
 <langs:selector langs="es, en, en_US, pt_BR, pt, pt_pt" default="es" />
 ```
 
-The required attribute "langs" tells the plugin which flags to show, if pay attention the values are the ISO 3166-1 alpha-2 code for languages and a countrys, also are the same of the suffixes of "message properties" files.
+The required attribute "langs" tells the plugin which flags to show, if pay attention the values are the ISO 3166-1 alpha-2 code for languages and a countries, also are the same of the suffixes of "message properties" files.
 
 Optionally if you want to redirect always to the same url when changing the language (this is helpful to avoid doing a GET with post data) use the url parameter, and this provided url will be used instead of the actual one.
 
 From version 0.3 you optionally can set the default flag to be highlighted when the user enters for first time in the app or has a new fresh session.
 
-This tag includes the css stylesheet that helps you identify which language is selected.
+This tag includes the css stylesheet that helps you identify which language is selected:
 ```
 <langs:resources/>
 ```
