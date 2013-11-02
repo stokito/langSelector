@@ -12,7 +12,7 @@ class LangSelectorTagLib {
         try {
             values = new ArrayList(langs.split(',').toList())
         } catch (Exception e) {
-            log.error "Error getting value of required attribute 'langs'", e
+            log.error("Error getting value of required attribute 'langs'", e)
             throw new Exception("Error getting value of required attribute 'langs'. Accepted value for example is: es,en_US,en")
         }
         Locale selected = session["org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE"]
