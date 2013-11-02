@@ -46,7 +46,7 @@ class LangSelectorTagLib {
             }
             url += query + 'lang='
         } else {
-            if (url.indexOf('?') > 0) {
+            if (url.contains('?')) {
                 url += '&lang='
             } else {
                 url += '?lang='
@@ -55,8 +55,8 @@ class LangSelectorTagLib {
         Map<String, String> supported = StaticConfig.config
         Map flags = [:]
         values.each {
-            String language = it.indexOf('_') > 0 ? it.substring(0, it.indexOf('_')) : it
-            def country = it.indexOf('_') > 0 ? it.substring(it.indexOf('_') + 1, it.length()) : supported[language.toLowerCase().trim()]
+            String language = it.contains('_') ? it.substring(0, it.indexOf('_')) : it
+            String country = it.contains('_') ? it.substring(it.indexOf('_') + 1, it.length()) : supported[language.toLowerCase().trim()]
             if (country) {
                 flags[it.trim()] = country.toLowerCase().trim()
             } else {
