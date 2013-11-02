@@ -1,4 +1,4 @@
-# grails-lang-selector plugin
+# Grails Language Selector Plugin
 
 This plugin provides a simple to use tag, to display flags for countries of the languages your application supports, that when clicked, changes the language of your application using the i18n support provided by Grails.
 
@@ -45,14 +45,14 @@ com.mfelix.grails.plugins.langSelector.lang.flags = [
 ```
 
 ## Tips&tricks
-1. The i18n support its executed in a filter attached to all controllers in your app, so in order to get it working in '/', you have to point it to a controller in the urlMappings file.
+1 . The i18n support its executed in a filter attached to all controllers in your app, so in order to get it working in '/', you have to point it to a controller in the urlMappings file.
 
 Here is an example:
 ```groovy
 '/'(controller: 'oneController', action: 'oneAction')
 ```
 
-2. Some versions of Grails when create an app generate the english message properties without the corresponding suffix, this prevents the i18n support to work properly.
+2 . Some versions of Grails when create an app generate the english message properties without the corresponding suffix, this prevents the i18n support to work properly.
 You should change the name of the file to get it working, this way: `messages.properties` -> `messages_en.properties`
 
 ## Plugin history
