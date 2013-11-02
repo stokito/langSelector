@@ -5,7 +5,6 @@ class LangSelectorTagLib {
 
     /**
      * Render language selector. Examples:<br/>
-     *
      * {@code &lt;langs:selector langs="es, en, en_US, pt_BR, pt, pt_pt"/&gt;}
      * <p/>
      * {@code &lt;langs:selector langs="es, en, en_US, pt_BR, pt, pt_pt" url="${createLink(action: 'list', controller: 'libro', params: [paramun: 123])}"/&gt;}
@@ -13,7 +12,9 @@ class LangSelectorTagLib {
      * {@code &lt;langs:selector langs="es, en, en_US, pt_BR, pt, pt_pt" default="es" /&gt;}
      * <p/>
      * The required attribute "langs" tells the plugin which flags to show, if pay attention the values are the ISO 3166-1 alpha-2 code for languages and a countries, also are the same of the suffixes of "message properties" files.
+     * <p/>
      * Optionally if you want to redirect always to the same url when changing the language (this is helpful to avoid doing a GET with post data) use the url parameter, and this provided url will be used instead of the actual one.
+     * <p/>
      * From version 0.3 you optionally can set the default flag to be highlighted when the user enters for first time in the app or has a new fresh session.
      * <p/>
      * @attr langs REQUIRED Comma separated list of locales that available for selection.
