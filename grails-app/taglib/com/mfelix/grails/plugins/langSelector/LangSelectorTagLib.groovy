@@ -30,7 +30,7 @@ class LangSelectorTagLib {
                 url += '?lang='
             }
         }
-        def supported = StaticConfig.config()
+        def supported = StaticConfig.config
         def flags = [:]
         values.each {
             def language = it.indexOf("_") > 0 ? it.substring(0, it.indexOf("_")) : it
