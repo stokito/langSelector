@@ -45,7 +45,7 @@ com.mfelix.grails.plugins.langSelector.lang.flags = [
 ```
 
 ## Tips & tricks
-1 . The i18n support its executed in a filter attached to all controllers in your app, so in order to get it working in '/', you have to point it to a controller in the `grails-app/config/UrlMappings.groovy` file.
+1 . The i18n support its executed in a filter attached to all controllers in your app, so in order to get it working in '/', you have to point it to a controller in the `grails-app/conf/UrlMappings.groovy` file.
 
 Here is an example:
 ```groovy
