@@ -7,7 +7,7 @@ Flag icons 16x16 pixels are from [FamFamFam](http://www.famfamfam.com/lab/icons/
 ## Usage
 Add the next tag to your gsp.
 
-```
+```xml
 <langs:selector langs="es, en, en_US, pt_BR, pt, pt_pt"/>
 <langs:selector langs="es, en, en_US, pt_BR, pt, pt_pt"
        url="${createLink(action: 'list', controller: 'libro', params: [paramun: 123])}"/>
@@ -21,7 +21,7 @@ Optionally if you want to redirect always to the same url when changing the lang
 From version 0.3 you optionally can set the default flag to be highlighted when the user enters for first time in the app or has a new fresh session.
 
 This tag includes the css stylesheet that helps you identify which language is selected:
-```
+```xml
 <langs:resources/>
 ```
 
@@ -45,7 +45,7 @@ com.mfelix.grails.plugins.langSelector.lang.flags = [
 ```
 
 ## Tips & tricks
-1 . The i18n support its executed in a filter attached to all controllers in your app, so in order to get it working in '/', you have to point it to a controller in the `grails-app/config/UrlMappings.groovy` file.
+1 . The i18n support its executed in a filter attached to all controllers in your app, so in order to get it working in '/', you have to point it to a controller in the `grails-app/conf/UrlMappings.groovy` file.
 
 Here is an example:
 ```groovy
