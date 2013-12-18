@@ -10,7 +10,7 @@ class LangSelectorGrailsPlugin {
 Simple to use tag, lets you change language of your application. It is based in i18n support provided by Grails.
 '''
     String documentation = 'http://grails.org/plugin/lang-selector'
-    String license = 'GNU'
+    String license = 'Apache v2.0'
     def issueManagement = [system: 'GitHub', url: 'https://github.com/maxifelix/langSelector/issues']
     def scm = [url: 'https://github.com/maxifelix/langSelector']
 }
