@@ -1,6 +1,6 @@
 package com.mfelix.grails.plugins.langSelector
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
+import grails.util.Holders
 
 class StaticConfig {
     /** this static property can be overriden by config */
@@ -21,6 +21,6 @@ class StaticConfig {
 
     //com.mfelix.grails.plugins.langSelector
     static Map<String, String> getConfig() {
-        CH.config.com.mfelix.grails.plugins.langSelector.lang.flags ? CH.config.com.mfelix.grails.plugins.langSelector.lang.flags : LANG_FLAGS
+        Holders.config.com.mfelix.grails.plugins.langSelector.lang.flags ? Holders.config.com.mfelix.grails.plugins.langSelector.lang.flags : LANG_FLAGS
     }
 }
