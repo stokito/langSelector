@@ -1,5 +1,7 @@
 package com.mfelix.grails.plugins.langSelector
 
+import org.apache.commons.lang.LocaleUtils
+
 class LangSelectorTagLib {
     static namespace = 'langs'
 
@@ -22,20 +24,15 @@ class LangSelectorTagLib {
      * @attr url The url will be used instead of the actual one.
      */
     def selector = { attrs ->
-        String defaultLang = attrs.default
-        String langs = attrs.langs
-        String url = attrs.url
-
-        List<String> localeCodesList
-        try {
-            localeCodesList = langs.split(',').toList()
-        } catch (Exception e) {
-            log.error("Error getting value of required attribute 'langs'", e)
-            throw new Exception("Error getting value of required attribute 'langs'. Accepted value for example is: es,en_US,en", e)
+        List<String> localeCodesList = attrs.langs?.toString()?.split(',')?.toList()
+        if (!localeCodesList) {
+            throw new Exception("Error getting value of required attribute 'langs'. Accepted value for example is: es,en_US,en")
         }
+        String defaultLang = attrs.default?.trim()
+        String url = attrs.url
         Locale selected = session["org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE"]
         // if not set in session, get it from attrs
-        selected = selected ? selected : defaultLang?.trim() //FIXME
+        selected = selected ? selected : new Locale(defaultLang)
         // if no default is set get default locale
         selected = selected ? selected : Locale.getDefault()
         if (url == null) {
@@ -46,11 +43,7 @@ class LangSelectorTagLib {
             }
             url += query + 'lang='
         } else {
-            if (url.contains('?')) {
-                url += '&lang='
-            } else {
-                url += '?lang='
-            }
+            url += url.contains('?') ? '&lang=' : '?lang='
         }
         Map<String, String> supported = StaticConfig.config
         Map flags = [:]
@@ -63,16 +56,10 @@ class LangSelectorTagLib {
                 log.error "No country flag found for: ${language} please check configuration."
             }
         }
-        // distincion de seleccionado o no por defecto estilo opacity
-        String selected_class = ''
-        String not_selected_class = 'opacitiy_not_selected'
-
-        out << render(template: '/langSelector/selector', plugin: 'langSelector',
-            model: [flags: flags,
-                selected_class: selected_class,
-                not_selected_class: not_selected_class,
-                selected: selected,
-                uri: url])
+        // distinction selected or default style opacity
+        String selectedClass = ''
+        String notSelectedClass = 'opacitiy_not_selected'
+        out << render(template: '/langSelector/selector', plugin: 'langSelector', model: [flags: flags, selectedClass: selectedClass, notSelectedClass: notSelectedClass, selected: selected, uri: url])
     }
 
     /** This tag includes the css stylesheet that helps you identify which language is selected */
