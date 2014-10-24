@@ -32,9 +32,9 @@ class LangSelectorTagLib {
         String url = attrs.url
         Locale selected = session["org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE"]
         // if not set in session, get it from attrs
-        selected = selected ? selected : new Locale(defaultLang)
+        selected = selected ?: LocaleUtils.toLocale(defaultLang)
         // if no default is set get default locale
-        selected = selected ? selected : Locale.getDefault()
+        selected = selected ?: Locale.getDefault()
         if (url == null) {
             url = request.getRequestURI() + '?'
             String query = request.getQueryString() ? request.getQueryString().replace('lang=' + selected.toString(), '') : ''
@@ -48,8 +48,9 @@ class LangSelectorTagLib {
         Map<String, String> supported = StaticConfig.config
         Map flags = [:]
         localeCodesList.each { String localeCode ->
-            String language = localeCode.contains('_') ? localeCode.substring(0, localeCode.indexOf('_')) : localeCode
-            String country = localeCode.contains('_') ? localeCode.substring(localeCode.indexOf('_') + 1, localeCode.length()) : supported[language.toLowerCase().trim()]
+            Locale locale = LocaleUtils.toLocale(localeCode)
+            String language = locale.language
+            String country = locale.country
             if (country) {
                 flags[localeCode.trim()] = country.toLowerCase().trim()
             } else {
