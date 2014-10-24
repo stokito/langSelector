@@ -21,6 +21,6 @@ class StaticConfig {
 
     //com.mfelix.grails.plugins.langSelector
     static Map<String, String> getConfig() {
-        Holders.config.com.mfelix.grails.plugins.langSelector.lang.flags ? Holders.config.com.mfelix.grails.plugins.langSelector.lang.flags : LANG_FLAGS
+        Holders.config.com.mfelix.grails.plugins.langSelector.lang.flags ?: LANG_FLAGS
     }
 }
