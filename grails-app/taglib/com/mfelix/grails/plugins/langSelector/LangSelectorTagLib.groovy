@@ -24,7 +24,7 @@ class LangSelectorTagLib {
      * @attr url The url will be used instead of the actual one.
      */
     def selector = { attrs ->
-        List<String> localeCodesList = attrs.langs?.toString()?.split(',')?.toList()
+        List<String> localeCodesList = attrs.langs?.toString()?.split(',')?.toList()*.trim()
         if (!localeCodesList) {
             throw new Exception("Error getting value of required attribute 'langs'. Accepted value for example is: es,en_US,en")
         }
@@ -36,8 +36,8 @@ class LangSelectorTagLib {
         // if no default is set get default locale
         selected = selected ?: Locale.getDefault()
         if (url == null) {
-            url = request.getRequestURI() + '?'
-            String query = request.getQueryString() ? request.getQueryString().replace('lang=' + selected.toString(), '') : ''
+            url = request.requestURI + '?'
+            String query = request.queryString ? request.queryString.replace('lang=' + selected.toString(), '') : ''
             if (query != '' && !query.endsWith('&')) {
                 query += '&'
             }
@@ -48,13 +48,16 @@ class LangSelectorTagLib {
         Map<String, String> supported = StaticConfig.config
         Map flags = [:]
         localeCodesList.each { String localeCode ->
-            Locale locale = LocaleUtils.toLocale(localeCode)
-            String language = locale.language
-            String country = locale.country
-            if (country) {
-                flags[localeCode.trim()] = country.toLowerCase().trim()
-            } else {
-                log.error "No country flag found for: ${language} please check configuration."
+            try {
+                Locale locale = LocaleUtils.toLocale(localeCode)
+                String country = locale.country ?: supported[locale.language]
+                if (country) {
+                    flags[localeCode] = country.toLowerCase()
+                } else {
+                    log.error "No country flag found for: ${locale.language} please check configuration."
+                }
+            } catch (Exception ex) {
+                log.error("Can't parse locale ${localeCode}")
             }
         }
         // distinction selected or default style opacity
