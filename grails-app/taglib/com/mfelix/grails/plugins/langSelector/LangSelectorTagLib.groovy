@@ -61,9 +61,7 @@ class LangSelectorTagLib {
             }
         }
         // distinction selected or default style opacity
-        String selectedClass = ''
-        String notSelectedClass = 'opacitiy_not_selected'
-        out << render(template: '/langSelector/selector', plugin: 'langSelector', model: [flags: flags, selectedClass: selectedClass, notSelectedClass: notSelectedClass, selected: selected, uri: url])
+        out << render(template: '/langSelector/selector', plugin: 'langSelector', model: [flags: flags, selected: selected, uri: url])
     }
 
     /** This tag includes the css stylesheet that helps you identify which language is selected */
