@@ -1,5 +1,8 @@
 package com.mfelix.grails.plugins.langSelector
 
+import org.springframework.web.servlet.i18n.SessionLocaleResolver
+import org.springframework.web.servlet.support.RequestContextUtils
+
 class LangSelectorTagLib {
     static namespace = 'langs'
     static returnObjectForTags = ['selectLang', 'generateUrl', 'getFlags', 'parseLocale']
@@ -36,12 +39,9 @@ class LangSelectorTagLib {
         out << render(template: '/langSelector/selector', plugin: 'langSelector', model: [flags: flags, selected: selected, uri: url])
     }
 
+    /** Priority: Session Locale resolver (only it supported), `default` attr, system default  */
     Locale selectLang(String defaultLang) {
-        Locale selected = (Locale) session["org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE"]
-        // if not set in session, get it from attrs
-        selected = selected ?: defaultLang ? parseLocale(defaultLang) : null
-        // if no default is set get default locale
-        selected = selected ?: Locale.getDefault()
+        Locale selected = session[SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME] ?: (parseLocale(defaultLang) ?: Locale.getDefault())
         return selected
     }
 
@@ -62,7 +62,6 @@ class LangSelectorTagLib {
     Map getFlags(List<String> localeCodesList) {
         Map<String, String> supported = StaticConfig.config
         Map flags = [:]
-        localeCodesList.collectEntries()
         localeCodesList.each { String localeCode ->
             Locale locale = parseLocale(localeCode)
             if (locale) {
@@ -77,6 +76,7 @@ class LangSelectorTagLib {
         return flags
     }
 
+    /** Fail safe resolving locale from it's code */
     Locale parseLocale(String localeCode) {
         if (!localeCode) return null
         //  Transform code form from ISO 3166-1 alpha-2 to IETF BCP 47 that uses "-" instead "_"
