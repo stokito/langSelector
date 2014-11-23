@@ -2,7 +2,7 @@ package com.mfelix.grails.plugins.langSelector
 
 class LangSelectorTagLib {
     static namespace = 'langs'
-    static returnObjectForTags = ['selectLang', 'generateUrl']
+    static returnObjectForTags = ['selectLang', 'generateUrl', 'getFlags', 'parseLocale']
 
     /**
      * Render language selector. Examples:<br/>
@@ -39,7 +39,7 @@ class LangSelectorTagLib {
     Locale selectLang(String defaultLang) {
         Locale selected = (Locale) session["org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE"]
         // if not set in session, get it from attrs
-        selected = selected ?: defaultLang ? Locale.forLanguageTag(defaultLang) : null
+        selected = selected ?: defaultLang ? parseLocale(defaultLang) : null
         // if no default is set get default locale
         selected = selected ?: Locale.getDefault()
         return selected
@@ -63,19 +63,26 @@ class LangSelectorTagLib {
         Map<String, String> supported = StaticConfig.config
         Map flags = [:]
         localeCodesList.each { String localeCode ->
-            try {
-                Locale locale = Locale.forLanguageTag(localeCode)
+            Locale locale = parseLocale(localeCode)
+            if (locale) {
                 String country = locale.country ?: supported[locale.language]
                 if (country) {
                     flags[localeCode] = country.toLowerCase()
                 } else {
                     log.error "No country flag found for: ${locale.language} please check configuration."
                 }
-            } catch (Exception ex) {
-                log.error("Can't parse locale ${localeCode}", ex)
             }
         }
         return flags
+    }
+
+    Locale parseLocale(String localeCode) {
+        try {
+            return Locale.forLanguageTag(localeCode)
+        } catch (Exception ex) {
+            log.error("Can't parse locale ${localeCode}", ex)
+        }
+        return null
     }
 
     /** This tag includes the css stylesheet that helps you identify which language is selected */
