@@ -29,16 +29,16 @@ class LangSelectorTagLib {
             throw new Exception("Error getting value of required attribute 'langs'. Accepted value for example is: es,en_US,en")
         }
         String defaultLang = attrs.default?.trim()
-        String url = attrs.url
-        Locale selected = session["org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE"]
+        String url = attrs.url?.trim()
+        Locale selected = (Locale) session["org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE"]
         // if not set in session, get it from attrs
         selected = selected ?: LocaleUtils.toLocale(defaultLang)
         // if no default is set get default locale
         selected = selected ?: Locale.getDefault()
-        if (url == null) {
+        if (!url) {
             url = request.requestURI + '?'
-            String query = request.queryString ? request.queryString.replace('lang=' + selected.toString(), '') : ''
-            if (query != '' && !query.endsWith('&')) {
+            String query = request.queryString?.replace('lang=' + selected.toString(), '') ?: ''
+            if (query && !query.endsWith('&')) {
                 query += '&'
             }
             url += query + 'lang='
@@ -57,7 +57,7 @@ class LangSelectorTagLib {
                     log.error "No country flag found for: ${locale.language} please check configuration."
                 }
             } catch (Exception ex) {
-                log.error("Can't parse locale ${localeCode}")
+                log.error("Can't parse locale ${localeCode}", ex)
             }
         }
         // distinction selected or default style opacity
