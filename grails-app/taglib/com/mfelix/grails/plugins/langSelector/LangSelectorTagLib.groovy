@@ -1,9 +1,8 @@
 package com.mfelix.grails.plugins.langSelector
 
-import org.apache.commons.lang.LocaleUtils
-
 class LangSelectorTagLib {
     static namespace = 'langs'
+    static returnObjectForTags = ['selectLang', 'generateUrl']
 
     /**
      * Render language selector. Examples:<br/>
@@ -30,11 +29,23 @@ class LangSelectorTagLib {
         }
         String defaultLang = attrs.default?.trim()
         String url = attrs.url?.trim()
+        Locale selected = selectLang(defaultLang)
+        url = generateUrl(url, selected)
+        Map flags = getFlags(localeCodesList)
+        // distinction selected or default style opacity
+        out << render(template: '/langSelector/selector', plugin: 'langSelector', model: [flags: flags, selected: selected, uri: url])
+    }
+
+    Locale selectLang(String defaultLang) {
         Locale selected = (Locale) session["org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE"]
         // if not set in session, get it from attrs
-        selected = selected ?: LocaleUtils.toLocale(defaultLang)
+        selected = selected ?: defaultLang ? Locale.forLanguageTag(defaultLang) : null
         // if no default is set get default locale
         selected = selected ?: Locale.getDefault()
+        return selected
+    }
+
+    String generateUrl(String url, Locale selected) {
         if (!url) {
             url = request.requestURI + '?'
             String query = request.queryString?.replace('lang=' + selected.toString(), '') ?: ''
@@ -45,11 +56,15 @@ class LangSelectorTagLib {
         } else {
             url += url.contains('?') ? '&lang=' : '?lang='
         }
+        return url
+    }
+
+    Map getFlags(List<String> localeCodesList) {
         Map<String, String> supported = StaticConfig.config
         Map flags = [:]
         localeCodesList.each { String localeCode ->
             try {
-                Locale locale = LocaleUtils.toLocale(localeCode)
+                Locale locale = Locale.forLanguageTag(localeCode)
                 String country = locale.country ?: supported[locale.language]
                 if (country) {
                     flags[localeCode] = country.toLowerCase()
@@ -60,8 +75,7 @@ class LangSelectorTagLib {
                 log.error("Can't parse locale ${localeCode}", ex)
             }
         }
-        // distinction selected or default style opacity
-        out << render(template: '/langSelector/selector', plugin: 'langSelector', model: [flags: flags, selected: selected, uri: url])
+        return flags
     }
 
     /** This tag includes the css stylesheet that helps you identify which language is selected */
