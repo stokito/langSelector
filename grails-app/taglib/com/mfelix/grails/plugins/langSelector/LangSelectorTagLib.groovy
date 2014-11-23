@@ -6,11 +6,11 @@ class LangSelectorTagLib {
 
     /**
      * Render language selector. Examples:<br/>
-     * {@code &lt;langs:selector langs="es, en, en_US, pt_BR, pt, pt_pt"/&gt;}
+     * {@code &lt;langs:selector langs="es, en, en-US, pt-BR, pt, pt-PT"/&gt;}
      * <p/>
-     * {@code &lt;langs:selector langs="es, en, en_US, pt_BR, pt, pt_pt" url="${createLink(action: 'list', controller: 'libro', params: [paramun: 123])}"/&gt;}
+     * {@code &lt;langs:selector langs="es, en, en-US, pt-BR, pt, pt-PT" url="${createLink(action: 'list', controller: 'libro', params: [paramun: 123])}"/&gt;}
      * <p/>
-     * {@code &lt;langs:selector langs="es, en, en_US, pt_BR, pt, pt_pt" default="es" /&gt;}
+     * {@code &lt;langs:selector langs="es, en, en-US, pt-BR, pt, pt-PT" default="es" /&gt;}
      * <p/>
      * The required attribute "langs" tells the plugin which flags to show, if pay attention the values are the ISO 3166-1 alpha-2 code for languages and a countries, also are the same of the suffixes of "message properties" files.
      * <p/>
@@ -62,6 +62,7 @@ class LangSelectorTagLib {
     Map getFlags(List<String> localeCodesList) {
         Map<String, String> supported = StaticConfig.config
         Map flags = [:]
+        localeCodesList.collectEntries()
         localeCodesList.each { String localeCode ->
             Locale locale = parseLocale(localeCode)
             if (locale) {
@@ -77,12 +78,15 @@ class LangSelectorTagLib {
     }
 
     Locale parseLocale(String localeCode) {
-        try {
-            return Locale.forLanguageTag(localeCode)
-        } catch (Exception ex) {
-            log.error("Can't parse locale ${localeCode}", ex)
+        if (!localeCode) return null
+        //  Transform code form from ISO 3166-1 alpha-2 to IETF BCP 47 that uses "-" instead "_"
+        localeCode = localeCode.replace('_', '-')
+        Locale locale = Locale.forLanguageTag(localeCode)
+        if (locale == new Locale('')) {
+            log.error("Can't parse locale ${localeCode}")
+            return null
         }
-        return null
+        return locale
     }
 
     /** This tag includes the css stylesheet that helps you identify which language is selected */
