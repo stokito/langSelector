@@ -1,5 +1,7 @@
 # Grails Language Selector Plugin
 
+[![Build Status](https://travis-ci.org/maxifelix/langSelector.png?branch=master)](https://travis-ci.org/maxifelix/langSelector)
+
 This plugin provides a simple to use tag, to display flags for countries of the languages your application supports, that when clicked, changes the language of your application using the i18n support provided by Grails.
 
 Flag icons 16x16 pixels are from [FamFamFam](http://www.famfamfam.com/lab/icons/flags/)
