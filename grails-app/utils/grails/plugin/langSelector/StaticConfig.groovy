@@ -20,6 +20,13 @@ class StaticConfig {
     ]
 
     static Map<String, String> getConfig() {
-        Holders.config.com.mfelix.grails.plugins.langSelector.lang.flags ?: LANG_FLAGS
+        if (Holders.config.grails.plugin.langSelector.langFlags) {
+            return Holders.config.grails.plugin.langSelector.langFlags
+        } else if (Holders.config.com.mfelix.grails.plugins.langSelector.lang.flags) {
+            log.warning('The option `com.mfelix.grails.plugins.langSelector.lang.flags` is renamed to `grails.plugin.langSelector.langFlags` and will be removed in v1.0. Please, don\'t forget to rename it.')
+            return Holders.config.com.mfelix.grails.plugins.langSelector.lang.flags
+        } else {
+            return LANG_FLAGS
+        }
     }
 }

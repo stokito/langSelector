@@ -25,10 +25,23 @@ This tag includes the css stylesheet that helps you identify which language is s
 <langs:resources/>
 ```
 
+
+
+### Difference with <g:localeSelect/> tag
+You can also use standard Grails [<g:localeSelect/>](http://grails.org/doc/latest/ref/Tags/localeSelect.html).
+It shows a combo-box with all known locales and can't show a country flag.
+But it my might be useful if you don't want to use this plugin. Here is example:
+```gsp
+<form method="get">
+    <g:localeSelect name="lang" value="${Locale.ENGLISH}"/>
+    <input type="submit" value="Change locale"/>
+</form>
+```
+
 ## Configuration.
-Optionally you can add this property to the `Config.groovy` to tell the plugin which flag display for the language. By default has the value shown below. Its a map that in the keys are the languages and the values are the countrys.
+Optionally you can add this property to the `Config.groovy` to tell the plugin which flag display for the language. By default has the value shown below. Its a map that in the keys are the languages and the values are the countries.
 ```groovy
-com.mfelix.grails.plugins.langSelector.lang.flags = [
+grails.plugin.langSelector.langFlags = [
 	'es': 'es',
 	'en': 'gb',
 	'fr': 'fr',
@@ -66,6 +79,8 @@ v0.4
 	<r:require module="localeSelector"/>
 </head>
 ```
+
+#9 `com.mfelix.grails.plugins.langSelector.lang.flags` with `grails.plugin.langSelector.langFlags`
 
 * 2011-02-02 - version 0.3 Added 'default' param, to set the default flag to be highlighted.
 * 2010-10-20 - version 0.2 Fixed bug in generated url when it had params, added url param
