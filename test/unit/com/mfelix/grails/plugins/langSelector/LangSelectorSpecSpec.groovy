@@ -2,7 +2,6 @@ package com.mfelix.grails.plugins.langSelector
 
 import grails.test.mixin.TestFor
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
-import spock.lang.Ignore
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -12,21 +11,25 @@ class LangSelectorSpecSpec extends Specification {
     static final ANY_LOCALE_CODE = 'yy'
     static final LOCALE_FROM_ATTR = new Locale('zz')
 
-    def setup() {
-    }
-
-    def cleanup() {
-    }
-
     @Unroll
-    void "selector(): #langs #defaultLang #url"() {
+    void "selector(): #sessionLocale #langs #defaultLang #url"() {
+        given:
+        session[SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME] = sessionLocale
+        InputStream inputStream = getClass().getResourceAsStream("selector-${num}.html")
+        String expectHtml = removeWhitespace(inputStream.text)
+        String generatedHtml = removeWhitespace(tagLib.selector(langs: langs, default: defaultLang, url: url).toString())
         expect:
-        tagLib.selector(langs: langs, default: defaultLang, url: url) == resultHtml
+        generatedHtml == expectHtml
         where:
-        langs                             | defaultLang | url          | resultHtml
-        'es, en, en_US, pt_BR, pt, pt_pt' | null        | null         | ''
-        'es, en, en_US, pt_BR, pt, pt_pt' | null        | 'libro/list' | ''
-        'es, en, en_US, pt_BR, pt, pt_pt' | 'es'        | 'libro/list' | ''
+        num | sessionLocale  | langs       | defaultLang | url
+        0   | null           | 'en, pt_BR' | null        | null
+        1   | null           | 'en, pt_BR' | null        | 'libro/list'
+        2   | null           | 'en, pt_BR' | 'pt'        | 'libro/list'
+        3   | Locale.ENGLISH | 'en, pt_BR' | 'pt'        | 'libro/list'
+    }
+
+    String removeWhitespace(String str) {
+        return str.replace(' ', '').replace('\n', '').replace('\r', '')
     }
 
     @Unroll
@@ -40,11 +43,11 @@ class LangSelectorSpecSpec extends Specification {
         'en-US'    | new Locale('en', 'US')
         'en-us'    | new Locale('en', 'US')
         'invalid!' | null
-         null      | null
+        null       | null
     }
 
     @Unroll
-    void "selectLang(): #defaultLocale #locale"() {
+    void "selectLang(): #sessionLocale #defaultLocale #locale"() {
         given:
         session[SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME] = sessionLocale
         expect:
