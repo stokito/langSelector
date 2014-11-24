@@ -1,7 +1,6 @@
 package grails.plugin.langSelector
 
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
-import org.springframework.web.servlet.support.RequestContextUtils
 
 class LangSelectorTagLib {
     static namespace = 'langs'

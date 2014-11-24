@@ -1,4 +1,4 @@
-package com.mfelix.grails.plugins.langSelector
+package grails.plugin.langSelector
 
 import grails.test.mixin.TestFor
 import org.springframework.web.servlet.i18n.SessionLocaleResolver

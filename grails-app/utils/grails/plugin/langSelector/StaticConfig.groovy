@@ -1,4 +1,4 @@
-package com.mfelix.grails.plugins.langSelector
+package grails.plugin.langSelector
 
 import grails.util.Holders
 
