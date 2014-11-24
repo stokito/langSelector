@@ -72,7 +72,7 @@ You should change the name of the file to get it working, this way: `messages.pr
 
 ## Plugin history
 
-v0.4
+### v0.4
 `<langs:resource/>` tag is deprecated and will be removed in v1.0. You should use standard `<r:require module="langSelector"/>` instead:
 
 ```html
@@ -82,7 +82,7 @@ v0.4
 </head>
 ```
 
-#9 `com.mfelix.grails.plugins.langSelector.lang.flags` with `grails.plugin.langSelector.langFlags`
+-[#9] `com.mfelix.grails.plugins.langSelector.lang.flags` with `grails.plugin.langSelector.langFlags`
 
 * 2011-02-02 - version 0.3 Added 'default' param, to set the default flag to be highlighted.
 * 2010-10-20 - version 0.2 Fixed bug in generated url when it had params, added url param
