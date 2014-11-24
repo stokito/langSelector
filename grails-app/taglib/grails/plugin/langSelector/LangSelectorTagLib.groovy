@@ -114,7 +114,7 @@ class LangSelectorTagLib {
             'pt': 'pt'
     ]
 
-    private static Map<String, String> getSupportedFlagsConfig() {
+    private Map<String, String> getSupportedFlagsConfig() {
         if (Holders.config.grails.plugin.langSelector.langFlags) {
             return Holders.config.grails.plugin.langSelector.langFlags
         } else if (Holders.config.com.mfelix.grails.plugins.langSelector.lang.flags) {
