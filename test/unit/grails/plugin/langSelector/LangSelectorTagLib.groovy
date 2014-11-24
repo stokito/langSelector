@@ -1,4 +1,4 @@
-package com.mfelix.grails.plugins.langSelector
+package grails.plugin.langSelector
 
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
 import org.springframework.web.servlet.support.RequestContextUtils
@@ -69,7 +69,7 @@ class LangSelectorTagLib {
                 if (country) {
                     flags[localeCode] = country.toLowerCase()
                 } else {
-                    log.error "No country flag found for: ${locale.language} please check configuration."
+                    LangSelectorTagLib.log.error "No country flag found for: ${locale.language} please check configuration."
                 }
             }
         }
@@ -83,7 +83,7 @@ class LangSelectorTagLib {
         localeCode = localeCode.replace('_', '-')
         Locale locale = Locale.forLanguageTag(localeCode)
         if (locale == new Locale('')) {
-            log.error("Can't parse locale ${localeCode}")
+            LangSelectorTagLib.log.error("Can't parse locale ${localeCode}")
             return null
         }
         return locale
