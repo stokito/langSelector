@@ -89,7 +89,11 @@ class LangSelectorTagLib {
         return locale
     }
 
-    /** This tag includes the css stylesheet that helps you identify which language is selected */
+    /**
+     * This tag includes the css stylesheet that helps you identify which language is selected
+     * @deprecated Use standard `<r:require module="langSelector"/>`
+     **/
+    @Deprecated
     def resources = {
         out << """<link rel='stylesheet' href="${resource(plugin: 'langSelector', dir: 'css', file: 'langSelector.css')}" />"""
     }
