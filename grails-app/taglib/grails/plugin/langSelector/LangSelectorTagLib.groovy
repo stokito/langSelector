@@ -68,7 +68,7 @@ class LangSelectorTagLib {
                 if (country) {
                     flags[localeCode] = country.toLowerCase()
                 } else {
-                    LangSelectorTagLib.log.error "No country flag found for: ${locale.language} please check configuration."
+                    log.error "No country flag found for: ${locale.language} please check configuration."
                 }
             }
         }
@@ -82,7 +82,7 @@ class LangSelectorTagLib {
         localeCode = localeCode.replace('_', '-')
         Locale locale = Locale.forLanguageTag(localeCode)
         if (locale == new Locale('')) {
-            LangSelectorTagLib.log.error("Can't parse locale ${localeCode}")
+            log.error("Can't parse locale ${localeCode}")
             return null
         }
         return locale
